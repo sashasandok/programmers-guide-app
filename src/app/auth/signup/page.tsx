@@ -1,5 +1,5 @@
 import { SignUpForm } from '@/ui/widgets/SignUpForm'
-import styles from './signUp.module.css'
+import styles from './signUp.module.scss'
 
 const SignUp = () => {
   return (

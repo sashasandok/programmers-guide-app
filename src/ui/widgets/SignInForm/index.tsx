@@ -1,6 +1,6 @@
 'use client'
 import { useForm, SubmitHandler } from 'react-hook-form'
-import styles from './signInForm.module.css'
+import styles from './signInForm.module.scss'
 import { Button, Input } from '@nextui-org/react'
 import { signIn } from 'next-auth/react'
 
@@ -32,9 +32,14 @@ export const SignInForm = () => {
 
   return (
     <form onSubmit={handleSubmit(onSignInUser)} className={styles.signInFormWrapper}>
-      <Input placeholder="email" {...register('email')} />
+      <Input placeholder="email" {...register('email')} className={styles.Input} />
       {errors.email && <span>This field is required</span>}
-      <Input placeholder="password" type="password" {...register('password')} />
+      <Input
+        placeholder="password"
+        type="password"
+        {...register('password')}
+        className={styles.Input}
+      />
       {errors.password && <span>This field is required</span>}
       <Button color="primary" type="submit">
         Sign In

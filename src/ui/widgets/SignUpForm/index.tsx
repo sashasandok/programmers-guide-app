@@ -1,6 +1,6 @@
 'use client'
 import { useForm, SubmitHandler } from 'react-hook-form'
-import styles from './signUpForm.module.css'
+import styles from './signUpForm.module.scss'
 import { Button, Input } from '@nextui-org/react'
 
 type Inputs = {
@@ -28,11 +28,16 @@ export const SignUpForm = () => {
 
   return (
     <form onSubmit={handleSubmit(onCreateNewUser)} className={styles.signUpFormWrapper}>
-      <Input placeholder="email" {...register('email')} />
+      <Input placeholder="email" {...register('email')} className={styles.Input} />
       {errors.email && <span>This field is required</span>}
-      <Input placeholder="user name" {...register('name')} />
+      <Input placeholder="user name" {...register('name')} className={styles.Input} />
       {errors.name && <span>This field is required</span>}
-      <Input placeholder="password" type="password" {...register('password')} />
+      <Input
+        placeholder="password"
+        type="password"
+        {...register('password')}
+        className={styles.Input}
+      />
       {errors.password && <span>This field is required</span>}
       <Button color="primary" type="submit">
         Create Account

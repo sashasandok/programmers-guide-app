@@ -7,6 +7,7 @@ import { isPasswordValid } from '@/utils/hash'
 export const authOptions: NextAuthOptions = {
   session: {
     strategy: 'jwt',
+    maxAge: 1 * 24 * 60 * 60,
   },
   callbacks: {
     async jwt({ token, account, profile }) {
@@ -16,7 +17,7 @@ export const authOptions: NextAuthOptions = {
       return token
     },
     async session({ session, token, user }: any) {
-      session.user.id = token.userId //(3)
+      session.user.id = token.userId
       return session
     },
   },
@@ -46,4 +47,5 @@ export const authOptions: NextAuthOptions = {
       },
     }),
   ],
+  secret: process.env.NEXT_AUTH_SECRET,
 }

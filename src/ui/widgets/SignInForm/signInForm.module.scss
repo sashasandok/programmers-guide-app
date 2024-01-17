@@ -1,6 +1,10 @@
-.signUpFormWrapper {
+.signInFormWrapper {
   display: flex;
   flex-direction: column;
   height: 300px;
   width: 450px;
+
+  .Input {
+    margin-bottom: 15px;
+  }
 }
