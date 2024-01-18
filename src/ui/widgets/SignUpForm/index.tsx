@@ -1,7 +1,10 @@
 'use client'
+import { useState } from 'react'
 import { useForm, SubmitHandler } from 'react-hook-form'
+import { useRouter } from 'next/navigation'
 import styles from './signUpForm.module.scss'
 import { Button, Input } from '@nextui-org/react'
+import { AppLoader } from '@/ui/components/AppLoader'
 
 type Inputs = {
   name: string
@@ -10,6 +13,8 @@ type Inputs = {
 }
 
 export const SignUpForm = () => {
+  const [isLoading, setIsLoading] = useState(false)
+  const router = useRouter()
   const {
     register,
     handleSubmit,
@@ -17,31 +22,36 @@ export const SignUpForm = () => {
   } = useForm<Inputs>()
 
   const onCreateNewUser: SubmitHandler<Inputs> = async (data) => {
+    setIsLoading(true)
     const res = await fetch('/api/auth/signup', {
       method: 'POST',
       body: JSON.stringify({ ...data, role: 'user' }),
     })
-    console.log('res', res)
+    if (res.status === 200) {
+      router.push('/auth/signin')
+    }
+    setIsLoading(false)
   }
 
-  // console.log(watch('password')) // watch input value by passing the name of it
-
   return (
-    <form onSubmit={handleSubmit(onCreateNewUser)} className={styles.signUpFormWrapper}>
-      <Input placeholder="email" {...register('email')} className={styles.Input} />
-      {errors.email && <span>This field is required</span>}
-      <Input placeholder="user name" {...register('name')} className={styles.Input} />
-      {errors.name && <span>This field is required</span>}
-      <Input
-        placeholder="password"
-        type="password"
-        {...register('password')}
-        className={styles.Input}
-      />
-      {errors.password && <span>This field is required</span>}
-      <Button color="primary" type="submit">
-        Create Account
-      </Button>
-    </form>
+    <>
+      <form onSubmit={handleSubmit(onCreateNewUser)} className={styles.signUpFormWrapper}>
+        <Input placeholder="email" {...register('email')} className={styles.Input} />
+        {errors.email && <span>This field is required</span>}
+        <Input placeholder="user name" {...register('name')} className={styles.Input} />
+        {errors.name && <span>This field is required</span>}
+        <Input
+          placeholder="password"
+          type="password"
+          {...register('password')}
+          className={styles.Input}
+        />
+        {errors.password && <span>This field is required</span>}
+        <Button color="primary" type="submit">
+          Create Account
+        </Button>
+      </form>
+      {isLoading && <AppLoader size="md" />}
+    </>
   )
 }
