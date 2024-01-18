@@ -1,11 +1,12 @@
 'use client'
 import { useState } from 'react'
 import { useForm, SubmitHandler } from 'react-hook-form'
+import { toast } from 'react-hot-toast'
 import { useRouter } from 'next/navigation'
-import styles from './signInForm.module.scss'
 import { Button, Input } from '@nextui-org/react'
 import { signIn } from 'next-auth/react'
 import { AppLoader } from '@/ui/components/AppLoader'
+import styles from './signInForm.module.scss'
 
 type Inputs = {
   email: string
@@ -26,9 +27,11 @@ export const SignInForm = () => {
     const res = await signIn('credentials', { ...data, redirect: false }).then(
       ({ ok, error }: any) => {
         if (ok) {
+          toast.success('You successfully logged in!')
           router.push('/')
         } else {
           alert(JSON.stringify(error))
+          toast.error(error?.message)
           console.log('Credentials do not match!', { type: 'error' })
         }
       },

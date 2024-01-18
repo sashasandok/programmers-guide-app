@@ -1,10 +1,11 @@
 'use client'
 import { useState } from 'react'
 import { useForm, SubmitHandler } from 'react-hook-form'
+import { toast } from 'react-hot-toast'
 import { useRouter } from 'next/navigation'
-import styles from './signUpForm.module.scss'
 import { Button, Input } from '@nextui-org/react'
 import { AppLoader } from '@/ui/components/AppLoader'
+import styles from './signUpForm.module.scss'
 
 type Inputs = {
   name: string
@@ -22,14 +23,20 @@ export const SignUpForm = () => {
   } = useForm<Inputs>()
 
   const onCreateNewUser: SubmitHandler<Inputs> = async (data) => {
-    setIsLoading(true)
-    const res = await fetch('/api/auth/signup', {
-      method: 'POST',
-      body: JSON.stringify({ ...data, role: 'user' }),
-    })
-    if (res.status === 200) {
-      router.push('/auth/signin')
+    try {
+      setIsLoading(true)
+      const res = await fetch('/api/auth/signup', {
+        method: 'POST',
+        body: JSON.stringify({ ...data, role: 'user' }),
+      })
+      if (res.status === 200) {
+        toast.success('Your account successfully created!')
+        router.push('/auth/signin')
+      }
+    } catch (error: any) {
+      toast.error(error?.message)
     }
+
     setIsLoading(false)
   }
 

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import { Providers } from '@/libs/providers'
+import { Toaster } from 'react-hot-toast'
 import './globals.css'
 import { AppHeader } from '@/ui/widgets/AppHeader'
 import { AppFooter } from '@/ui/widgets/AppFooter'
@@ -20,6 +21,17 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <main className="App">
             <AppHeader />
             <div className="AppContent">{children}</div>
+            <Toaster
+              position="bottom-center"
+              toastOptions={{
+                className: '',
+                duration: 3000,
+                style: {
+                  background: '#363636',
+                  color: '#fff',
+                },
+              }}
+            />
             <AppFooter />
           </main>
         </Providers>
